@@ -1,0 +1,47 @@
+function send(num){
+    var txt = ""
+    var request = new XMLHttpRequest();
+    request.open('GET', 'https://nethnews.lk/article/'+num, false);  // `false` makes the request synchronous
+    request.send(null);
+	document.body.innerHTML = request.response;
+
+    if (request.status === 200) {
+	try{
+        json_object = {
+            "title":document.getElementsByClassName("td-post-title")[0].firstElementChild.textContent,
+
+            "authors":document.getElementsByClassName("td-post-title")[0].children[1].textContent.split("/"),
+  
+            "date":{
+            "year":document.getElementsByClassName("td-post-title")[0].children[2].textContent.trim().split("-")[0],
+    
+            "month":document.getElementsByClassName("td-post-title")[0].children[2].textContent.trim().split("-")[1],
+     
+            "date":document.getElementsByClassName("td-post-title")[0].children[2].textContent.trim().split("-")[2]
+ 
+            },
+   
+            "views":document.getElementsByClassName("td-post-views")[0].firstElementChild.textContent,
+   
+           "content":document.getElementsByClassName("td-post-content")[0].textContent.trim().split("\n").join()
+     }
+     console.log(JSON.stringify(json_object));
+	
+    txt = JSON.stringify(json_object) + ",\n"
+
+    }catch(e){}
+}
+
+    
+    if (request.status === 404) {
+     console.log(num + ": no")
+    }
+return txt
+    
+}
+
+for(i=67222;i>67000;i--){
+	console.log(i);
+   dataset += send(i)
+}
+
